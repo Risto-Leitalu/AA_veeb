@@ -1,0 +1,30 @@
+{
+  "name": "aa_veeb",
+  "version": "1.0.0",
+  "description": "Veebiprogrammeerimise kursusel loodud veeb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://leitaluristo@github.com/Risto-Leitalu/AA_veeb.git"
+  },
+  "keywords": [
+    "Tallinna",
+    "Ülikool",
+    "DTI",
+    "Veebiprogrammeerimine",
+    "Node.js",
+    "Express.js"
+  ],
+  "author": "Risto Leitalu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Risto-Leitalu/AA_veeb/issues"
+  },
+  "homepage": "https://github.com/Risto-Leitalu/AA_veeb#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
