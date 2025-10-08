@@ -57,7 +57,7 @@ app.post("/regvisit", (req, res)=>{
 		}
 		else {
 			//faili senisele sisule lisamine
-			fs.appendFile("public/txt/visitlog.txt", req.body.nameInput + ", " + dateEt.longDate() + " Kell " + dateEt.time() + ";", (err)=>{
+			fs.appendFile("public/txt/visitlog.txt", req.body.firstNameInput + " " + req.body.lastNameInput + ", " + dateEt.longDate() + " Kell " + dateEt.time() + ";", (err)=>{
 				if(err){
 					throw(err);
 				}
