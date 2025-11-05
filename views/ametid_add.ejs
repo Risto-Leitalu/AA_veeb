@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="utf-8">
+  <title>Risto Veebileht</title>
+</head>
+<body>
+  <img src="/images/vp_banner_2025_AA.jpg" alt="Kursuse bänner">
+  <h1>Risto Veebileht</h1>
+  <p>See leht on loodud <a href="https://www.tlu.ee">Tallinna Ülikoolis</a> veebiprogrammeerimise kursusel ja ei oma mõistlikku sisu.</p>
+  <hr>
+  <ul>
+	<li><a href="/">Avalehele</a></li>
+	<li><a href="/eestifilm">Eesti filmi avaleht</a></li>
+  </ul>
+  <h2>Eesti filmiga seotud ametite lisamine</h2>
+  <form method="POST">
+    <label for="positionNameInput">Ameti nimi</label>
+	<input id="positionNameInput" type="text" name="positionNameInput" placeholder="Kirjuta siia ameti nimi..." required>
+    <br>
+    <label for="positionDescriptionInput">Ameti kirjeldus</label>
+	<textarea id="positionDescriptionInput" name="positionDescriptionInput" cols="100 rows="5" placeholder="Kirjuta siia ameti kirjeldus..." required></textarea>
+	<br>
+	<input id="positionSubmit" name="positionSubmit" type="submit" value="Salvesta">
+  </form>
+</body>
+</html>
