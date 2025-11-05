@@ -9,8 +9,8 @@ const textRef2 = "./public/txt/visitlog.txt";
 const app = express();
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-app.use(bodyparser.urlencoded({extended: false}));
-
+//kui vormist tuleb vaid tekst, siis false, kui muud ka, siis true
+app.use(bodyparser.urlencoded({extended: true}));
 const dbConf = {
 	host: dbInfo.configData.host,
 	user: dbInfo.configData.user,
@@ -81,5 +81,10 @@ app.post("/regvisit", (req, res)=>{
 //Eesti filmi marsruudid
 const eestifilmRouter = require("./routes/eestifilmRoutes");
 app.use("/eestifilm", eestifilmRouter);
+
+//Galerii üleslaadimise marsruudid
+const galleryphotouploadRouter = require("./routes/galleryphotouploadRoutes");
+app.use("/galleryphotoupload", galleryphotouploadRouter);
+
 
 app.listen(5307);
