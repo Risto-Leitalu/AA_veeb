@@ -2,6 +2,7 @@ const mysql = require("mysql2/promise");
 const fs = require("fs").promises;
 const sharp = require("sharp");
 const dbInfo = require("./../../vp2025config");
+const watermarkFile = "./public/images/vp_logo_small.png";
 
 const dbConf = {
 	host: dbInfo.configData.host,
@@ -26,15 +27,30 @@ const galleryphotouploadPage = (req, res)=>{
 
 const galleryphotouploadPagePost = async (req, res)=>{	
 	let conn;
+	console.log(req.body);
+	console.log(req.file);
 	try{
-		conn = await mysql.createConnection(dbConf);
-		console.log("Andmebaasi ühendus loodud");
 		const fileName = "vp_" + Date.now() + ".jpg";
 		console.log(fileName);
+		conn = await mysql.createConnection(dbConf);
+		console.log("Andmebaasi ühendus loodud");
 		await fs.rename(req.file.path, req.file.destination + fileName);
-		//loon normaalmõõdus foto(800x600)
-		await sharp(req.file.destination + fileName).resize(800,600).jpeg({quality: 90}).toFile("./public/gallery/normal/" + fileName);
+		const watermarkSettings = [{
+            input: watermarkFile,
+            gravity: "southeast"
+        }];
+		if (!await fs.access(watermarkFile).then(() => true).catch(() => false)) {
+             console.log("Vesimärgi faili pole olemas");
+             watermarkSettings.length = 0; 
+        }
+		let normalImageProcessor = await sharp(req.file.destination + fileName).resize(800, 600).jpeg({quality: 90});
+		console.log("Lisan vesimärgi " + watermarkSettings.length);
+        if (watermarkSettings.length > 0) {
+            normalImageProcessor = await normalImageProcessor.composite(watermarkSettings);
+        }
+		await normalImageProcessor.toFile("./public/gallery/normal/" + fileName);
 		await sharp(req.file.destination + fileName).resize(100,100).jpeg({quality: 90}).toFile("./public/gallery/thumbs/" + fileName);
+		conn= await mysql.createConnection(dbConf);
 		let sqlReq = "INSERT INTO galleryphotos (filename, origname, alttext, privacy, userid) VALUES(?,?,?,?,?)";
 		//kuna kasutajakontosid ja nende id-sid veel pole, siis ...
 		const userId = 1;

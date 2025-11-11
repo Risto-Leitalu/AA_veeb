@@ -19,8 +19,30 @@ const dbConf = {
 	
 };
 
-app.get("/", (req, res)=>{
-	res.render("index");
+app.get("/", async (req, res)=>{
+	let conn;
+	try {
+		const privacy = 3;
+		conn = await mysql.createConnection(dbConf);
+		console.log("Andmebaasi ühendus loodud");
+		let sqlReq = "SELECT filename, alttext FROM galleryphotos WHERE id=(SELECT MAX(id) FROM galleryphotos WHERE privacy=? AND deleted IS NULL)";
+		const [rows, fields] = await conn.execute(sqlReq, [privacy]);
+		console.log(rows);
+		let imgAlt = "Avalik foto";
+		if(rows[0].alttext != ""){
+			imgAlt = rows[0].alttext;
+		}
+		res.render("index", {imgFile: "gallery/normal/" + rows[0].filename, imgAlt: imgAlt});
+	}
+	catch(err){
+		res.render("index");
+	}
+	finally {
+		if(conn){
+			await conn.end();
+			console.log("Andmebaasi ühendus suletud!");
+		}
+	}
 });
 
 app.get("/timenow", (req, res)=>{
