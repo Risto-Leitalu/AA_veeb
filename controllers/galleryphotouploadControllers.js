@@ -50,7 +50,6 @@ const galleryphotouploadPagePost = async (req, res)=>{
         }
 		await normalImageProcessor.toFile("./public/gallery/normal/" + fileName);
 		await sharp(req.file.destination + fileName).resize(100,100).jpeg({quality: 90}).toFile("./public/gallery/thumbs/" + fileName);
-		conn= await mysql.createConnection(dbConf);
 		let sqlReq = "INSERT INTO galleryphotos (filename, origname, alttext, privacy, userid) VALUES(?,?,?,?,?)";
 		//kuna kasutajakontosid ja nende id-sid veel pole, siis ...
 		const userId = 1;

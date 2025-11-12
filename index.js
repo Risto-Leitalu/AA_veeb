@@ -11,6 +11,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 //kui vormist tuleb vaid tekst, siis false, kui muud ka, siis true
 app.use(bodyparser.urlencoded({extended: true}));
+
 const dbConf = {
 	host: dbInfo.configData.host,
 	user: dbInfo.configData.user,
@@ -35,7 +36,8 @@ app.get("/", async (req, res)=>{
 		res.render("index", {imgFile: "gallery/normal/" + rows[0].filename, imgAlt: imgAlt});
 	}
 	catch(err){
-		res.render("index");
+		console.log(err);
+		res.render("index", {imgFile: "images/otsin_pilte.jpg", imgAlt: "Tunnen end, kui pilti otsiv lammas"});
 	}
 	finally {
 		if(conn){
@@ -104,9 +106,12 @@ app.post("/regvisit", (req, res)=>{
 const eestifilmRouter = require("./routes/eestifilmRoutes");
 app.use("/eestifilm", eestifilmRouter);
 
-//Galerii üleslaadimise marsruudid
+//Galerii piltide üleslaadimise marsruudid
 const galleryphotouploadRouter = require("./routes/galleryphotouploadRoutes");
 app.use("/galleryphotoupload", galleryphotouploadRouter);
 
+//Fotogalerii marsruudid
+const photogalleryRouter = require("./routes/photogalleryRoutes");
+app.use("/photogallery", photogalleryRouter);
 
 app.listen(5307);
